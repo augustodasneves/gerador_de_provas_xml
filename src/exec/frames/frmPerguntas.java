@@ -447,7 +447,7 @@ public class frmPerguntas extends javax.swing.JFrame {
             respostasEditadas.add(RadioCorreta+","+alternativa);
         }
         perguntaEditada.setListaRespostas(respostasEditadas);
-        xml.editaPergunta(pergunta, perguntaEditada)
+//        xml.editaPergunta(pergunta, perguntaEditada)
     }//GEN-LAST:event_jbtnEditarActionPerformed
 
     private void cmb4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb4ActionPerformed

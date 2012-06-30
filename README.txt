@@ -1,0 +1,3 @@
+Este projeto é um trabalho desenvolvido dentro da disciplina de Linguagem de Progamação - Java.
+Que se baseia no desenvolvimento de uma interface gráfica para manipular dados gerenciais de uma prova, como perguntas,provas,gabaritos,etc...
+Os dados estão armazenados em arquivos do tipo XML especificados pelo tutor da disciplina.
