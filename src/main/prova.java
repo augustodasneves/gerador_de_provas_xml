@@ -14,7 +14,7 @@ import java.util.Vector;
 public class prova{
     Vector perguntas;
     Integer nivel;
-    materias materia;
+    String materia;
     Date data;
     String professor;
 
@@ -26,11 +26,11 @@ public class prova{
         this.data = data;
     }
 
-    public materias getMateria() {
+    public String getMateria() {
         return materia;
     }
 
-    public void setMateria(materias materia) {
+    public void setMateria(String materia) {
         this.materia = materia;
     }
 
