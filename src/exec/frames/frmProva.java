@@ -5,10 +5,10 @@
 package exec.frames;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import main.perguntas;
 import main.prova;
 import main.xml;
@@ -101,6 +101,11 @@ public class frmProva extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jbtnPreVisualizar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnGerar))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,18 +121,13 @@ public class frmProva extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmb1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbtnPreVisualizar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnGerar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblmateria3)
                                 .addGap(27, 27, 27)
-                                .addComponent(jtxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jtxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -150,15 +150,14 @@ public class frmProva extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblmateria3)
                     .addComponent(jtxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnPreVisualizar)
-                    .addComponent(jbtnGerar))
-                .addContainerGap(37, Short.MAX_VALUE))
+                    .addComponent(jbtnGerar)))
         );
 
         pack();
@@ -205,16 +204,37 @@ public class frmProva extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb1ActionPerformed
 
     private void jbtnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGerarActionPerformed
-        try{
+        
             prova provaGerar=new prova();
-            provaGerar.setData(Date.valueOf(jtxtData.getText()));
+            provaGerar.setData(jtxtData.getText().toString());
             provaGerar.setMateria(cmb.getSelectedItem().toString());
             provaGerar.setProfessor(jtxtProfessor.getText());
+            Vector perguntasProva=new Vector();
+            for(int i=1;i<=jList1.getModel().getSize();i++){
+            try {
+                perguntas perguntaNova;
+                perguntaNova = xml.getDetalhePergunta(jList1.getSelectedValue().toString());
+                perguntasProva.add(perguntaNova);
+            } catch (IOException ex) {
+                Logger.getLogger(frmProva.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SAXException ex) {
+                Logger.getLogger(frmProva.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            provaGerar.setPerguntas(perguntasProva);
+    try{
+        prova.geraProva(provaGerar);
         }catch(Exception e){
-            
+            JOptionPane.showMessageDialog(null,"Não foi possível gerar a prova","Erro",JOptionPane.ERROR_MESSAGE);
+
+            /*Metódo utilizado para encerrar um programa que utilize interface
+            gráfica sem erro, caso com erro altere para 1*/
+            System.exit(0);
         }
     }//GEN-LAST:event_jbtnGerarActionPerformed
 
+    
+    
     /**
      * @param args the command line arguments
      */

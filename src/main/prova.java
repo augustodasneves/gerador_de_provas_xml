@@ -4,7 +4,9 @@
  */
 package main;
 
-import java.util.Date;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Vector;
 
 /**
@@ -15,14 +17,14 @@ public class prova{
     Vector perguntas;
     Integer nivel;
     String materia;
-    Date data;
+    String data;
     String professor;
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -58,5 +60,16 @@ public class prova{
         this.professor = professor;
     }
 
-
+    public static void geraProva(prova provaMontada){
+         try {  
+            FileWriter arquivo = new FileWriter(new File("Arquivo.txt"));  
+            arquivo.write("teste");  
+            arquivo.close();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+    }
+    
 }
