@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
  */
 public class frmPerguntas extends javax.swing.JFrame {
     private perguntas perguntaOriginal;
+    private boolean novo;
     /**
      * Creates new form frmPerguntas
      */
@@ -348,6 +349,7 @@ public class frmPerguntas extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         try {
+            this.novo=false;
             perguntas pergunta = xml.getDetalhePergunta(jList1.getSelectedValue().toString());
             this.perguntaOriginal=pergunta;
             Vector dadosMaterias;
@@ -471,7 +473,11 @@ public class frmPerguntas extends javax.swing.JFrame {
         }
         perguntaEditada.setListaRespostas(respostasEditadas);
         try {
-            xml.editaPergunta(this.perguntaOriginal, perguntaEditada);
+            if(novo==true){
+                xml.adicionaPergunta(perguntaEditada);
+            }else{
+                xml.editaPergunta(this.perguntaOriginal, perguntaEditada);
+            }
             this.limpaFormPergunta();
             jList1.setModel(new DefaultListModel());
             
@@ -527,6 +533,21 @@ public class frmPerguntas extends javax.swing.JFrame {
 
     private void jbtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNovoActionPerformed
         this.limpaFormPergunta();
+        this.novo=true;        
+            Vector dadosMaterias;
+            try {
+                dadosMaterias = xml.getMaterias();
+                for (int i = 0; i < dadosMaterias.size(); i++) {
+                    cmb5.addItem(dadosMaterias.elementAt(i));
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SAXException ex) {
+                Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cmb4.addItem("Fácil");
+            cmb4.addItem("Médio");
+            cmb4.addItem("Díficil");
     }//GEN-LAST:event_jbtnNovoActionPerformed
     public void limpaFormPergunta(){
         cmb5.removeAllItems();

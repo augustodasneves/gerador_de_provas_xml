@@ -164,6 +164,41 @@ public class xml {
         }
     }
     
+    public static void adicionaPergunta(perguntas pergunta) throws IOException, XPathExpressionException, TransformerConfigurationException, TransformerException, SAXException{
+          try {
+            //Carrega XML já salvo em disco
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db;
+            db = dbf.newDocumentBuilder();
+            Document doc = (Document) db.parse(new File("src/resources/perguntas.xml"));
+            Element root = doc.getDocumentElement();
+            //Procura o nodo selecionado
+            NodeList nl = root.getElementsByTagName("pergunta");
+            //Alterar elemento
+            Element novaPergunta=doc.createElement("pergunta");
+            novaPergunta.setAttribute("descricao", pergunta.getDescricao().toString());            
+            novaPergunta.setAttribute("materia", pergunta.getMateria().toString());            
+            novaPergunta.setAttribute("nivel", pergunta.getNivel().toString());            
+            for(int i=0;i<pergunta.getListaRespostas().size();i++){
+                Element resposta=doc.createElement("resposta");
+                String[] dadosResposta=pergunta.getListaRespostas().elementAt(i).toString().split(",");
+                resposta.setAttribute("correta", dadosResposta[0]);
+                resposta.setAttribute("descricao", dadosResposta[1]);
+                novaPergunta.appendChild(resposta);
+            }
+            root.appendChild(novaPergunta);
+            //Grava XML
+            TransformerFactory tranFactory = TransformerFactory.newInstance(); 
+            Transformer aTransformer = tranFactory.newTransformer(); 
+            Source src = new DOMSource(doc); 
+            Result dest = new StreamResult(new File("src/resources/perguntas.xml")); 
+            aTransformer.transform(src, dest); 
+            
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(xml.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static Vector getMaterias()throws IOException, SAXException{
         Vector dadosAgencia=new Vector();
         try {

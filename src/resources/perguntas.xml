@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><perguntas>    
     
-<pergunta descricao="PERG2" materia="LPII" nivel="dificil">
-        <resposta correta="sim" descricao="WE11"/>
-        <resposta correta="nao" descricao="WE33"/>
-        <resposta correta="nao" descricao="WE22"/>
-        <resposta correta="nao" descricao="WE44"/>
-    </pergunta></perguntas>
+
+	<pergunta descricao="TESTE" materia="LPII" nivel="medio">
+		<resposta correta="sim" descricao="1111111"/>
+		<resposta correta="nao" descricao="3333333"/>
+		<resposta correta="nao" descricao="2222222"/>
+		<resposta correta="nao" descricao="4444444"/>
+		</pergunta>
+<pergunta descricao="TESTE" materia="Banco de Dados" nivel="medio">
+        <resposta correta="sim" descricao="1111111"/>
+        <resposta correta="nao" descricao="3333333"/>
+        <resposta correta="nao" descricao="2222222"/>
+        <resposta correta="nao" descricao="4444444"/>
+    </pergunta><pergunta descricao="TESTTTTTEEE ENENEGGG" materia="Engenharia de Software" nivel="medio"><resposta correta="nao" descricao="tetetet"/><resposta correta="sim" descricao="tetetebbb"/><resposta correta="nao" descricao="teteteteaaa"/><resposta correta="nao" descricao="tetetetteteetcccccc"/></pergunta></perguntas>
