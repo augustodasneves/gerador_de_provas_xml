@@ -56,7 +56,7 @@ public class frmProva extends javax.swing.JFrame {
         jlblnumPerguntas = new javax.swing.JLabel();
         jtxtNumPerguntas = new javax.swing.JFormattedTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Formulário de Criação de Provas");
         setIconImages(null);
         setResizable(false);

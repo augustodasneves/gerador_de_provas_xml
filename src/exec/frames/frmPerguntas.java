@@ -80,7 +80,7 @@ public class frmPerguntas extends javax.swing.JFrame {
 
         lblmateria1.setText("Nível:");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Formulário de Edição de Perguntas");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
