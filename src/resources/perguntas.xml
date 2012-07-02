@@ -1,15 +1,8 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<perguntas>
-    <pergunta descricao="Pergunta fácil:" materia="LPII" nivel="facil" >
-        <resposta descricao="O tipo de retorno E a lista de argumentos1" correta="nao" />
-        <resposta descricao="O tipo de retorno1" correta="nao" />
-        <resposta descricao="A lista de argumentos1" correta="sim" />
-        <resposta descricao="Todas as respostas acima1" correta="nao" />
-    </pergunta>
-    <pergunta descricao="Pergunta Díficil:" materia="Banco de Dados" nivel="dificil" >
-        <resposta descricao="O tipo de retorno E a lista de argumentos" correta="nao" />
-        <resposta descricao="O tipo de retorno" correta="nao" />
-        <resposta descricao="A lista de argumentos" correta="sim" />
-        <resposta descricao="Todas as respostas acima" correta="nao" />
-    </pergunta>
-</perguntas>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><perguntas>    
+    
+<pergunta descricao="PERG2" materia="LPII" nivel="dificil">
+        <resposta correta="sim" descricao="WE11"/>
+        <resposta correta="nao" descricao="WE33"/>
+        <resposta correta="nao" descricao="WE22"/>
+        <resposta correta="nao" descricao="WE44"/>
+    </pergunta></perguntas>

@@ -8,9 +8,12 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -92,24 +95,73 @@ public class xml {
         return novaPergunta;
     }
     
-    public static Vector editaPergunta(perguntas perguntaOriginal,Vector perguntaEditada) throws SAXException, IOException{
-        Vector dadosAgencia=new Vector();
-        try {
-            DocumentBuilderFactory dbf= DocumentBuilderFactory.newInstance();
+    public static void editaPergunta(perguntas perguntaOriginal,perguntas perguntaEditada) throws IOException, XPathExpressionException, TransformerConfigurationException, TransformerException, SAXException{
+          try {
+            //Carrega XML já salvo em disco
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db;
             db = dbf.newDocumentBuilder();
             Document doc = (Document) db.parse(new File("src/resources/perguntas.xml"));
-
-            Element elem = doc.getDocumentElement();
-            NodeList nl = elem.getElementsByTagName("materia");
-            for (int i = 0; i < nl.getLength(); i++) {
-                Element tag = (Element) nl.item(i);
-                dadosAgencia.add((Object)tag.getAttribute("descricao"));
+            Element root = doc.getDocumentElement();
+            //Procura o nodo selecionado
+            NodeList nl = root.getElementsByTagName("pergunta");
+            //Alterar elemento
+            Element oldChild = (Element) nl.item(0);
+            Element newChild = (Element) nl.item(0);
+            newChild.setAttribute("descricao", perguntaEditada.getDescricao().toString());            
+            newChild.setAttribute("materia", perguntaEditada.getMateria().toString());            
+            newChild.setAttribute("nivel", perguntaEditada.getNivel().toString());            
+            NodeList respostasOld=newChild.getElementsByTagName("resposta");
+            NodeList respostasNew=newChild.getElementsByTagName("resposta");
+            for(int i=0;i<respostasNew.getLength();i++){
+                Element resposta=(Element)respostasNew.item(i);
+                String[] dadosResposta=perguntaEditada.getListaRespostas().elementAt(i).toString().split(",");
+                resposta.setAttribute("correta", dadosResposta[0]);
+                resposta.setAttribute("descricao", dadosResposta[1]);
+                newChild.replaceChild(respostasNew.item(i),respostasOld.item(i));
             }
+            root.removeChild(oldChild);
+            root.appendChild(newChild);
+            //Grava XML
+            TransformerFactory tranFactory = TransformerFactory.newInstance(); 
+            Transformer aTransformer = tranFactory.newTransformer(); 
+            Source src = new DOMSource(doc); 
+            Result dest = new StreamResult(new File("src/resources/perguntas.xml")); 
+            aTransformer.transform(src, dest); 
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(materias.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(xml.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return dadosAgencia;
+    }
+    
+    public static void removePergunta(perguntas pergunta) throws IOException, XPathExpressionException, TransformerConfigurationException, TransformerException, SAXException{
+          try {
+            //Carrega XML já salvo em disco
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db;
+            db = dbf.newDocumentBuilder();
+            Document doc = (Document) db.parse(new File("src/resources/perguntas.xml"));
+            Element root = doc.getDocumentElement();
+            //Procura o nodo selecionado
+            NodeList nl = root.getElementsByTagName("pergunta");
+            //Alterar elemento
+            boolean excluiu=false;
+            for(int i=0;i<nl.getLength() || excluiu==false;i++){
+                Element noPergunta=(Element)nl.item(i);
+                if(noPergunta.getAttribute("descricao").toString().equals(pergunta.getDescricao())){
+                    root.removeChild(noPergunta);
+                    excluiu=true;
+                }
+            }
+            //Grava XML
+            TransformerFactory tranFactory = TransformerFactory.newInstance(); 
+            Transformer aTransformer = tranFactory.newTransformer(); 
+            Source src = new DOMSource(doc); 
+            Result dest = new StreamResult(new File("src/resources/perguntas.xml")); 
+            aTransformer.transform(src, dest); 
+            
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(xml.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static Vector getMaterias()throws IOException, SAXException{

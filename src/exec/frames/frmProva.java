@@ -4,11 +4,16 @@
  */
 package exec.frames;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import main.gabarito;
 import main.perguntas;
 import main.prova;
 import main.xml;
@@ -41,17 +46,20 @@ public class frmProva extends javax.swing.JFrame {
         lblmateria1 = new javax.swing.JLabel();
         cmb1 = new javax.swing.JComboBox();
         lblmateria2 = new javax.swing.JLabel();
-        lblmateria3 = new javax.swing.JLabel();
         jtxtProfessor = new javax.swing.JTextField();
-        jtxtData = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
-        jbtnPreVisualizar = new javax.swing.JButton();
         jbtnGerar = new javax.swing.JButton();
+        jtxtCaminho = new javax.swing.JTextField();
+        jbtnCaminho = new javax.swing.JButton();
+        jlblnumPerguntas = new javax.swing.JLabel();
+        jtxtNumPerguntas = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Formulário de Criação de Provas");
+        setIconImages(null);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -77,25 +85,28 @@ public class frmProva extends javax.swing.JFrame {
 
         lblmateria2.setText("Professor:");
 
-        lblmateria3.setText("Data:");
-
         jScrollPane1.setViewportView(jList1);
 
         jLabel1.setText("Perguntas Pré-Selecionadas:");
 
-        jbtnPreVisualizar.setText("Pré-Visualizar");
-        jbtnPreVisualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnPreVisualizarActionPerformed(evt);
-            }
-        });
-
-        jbtnGerar.setText("Gerar");
+        jbtnGerar.setText("Gerar Prova");
+        jbtnGerar.setActionCommand("Gerar Prova");
         jbtnGerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnGerarActionPerformed(evt);
             }
         });
+
+        jbtnCaminho.setText("Selecione o Caminho");
+        jbtnCaminho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCaminhoActionPerformed(evt);
+            }
+        });
+
+        jlblnumPerguntas.setText("Nº Perguntas:");
+
+        jtxtNumPerguntas.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,33 +114,37 @@ public class frmProva extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jbtnPreVisualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbtnGerar))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblmateria2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtProfessor))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblmateria1)
                             .addComponent(lblmateria))
-                        .addGap(14, 14, 14)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmb1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 191, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jtxtCaminho)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbtnCaminho))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblmateria2)
+                            .addComponent(jlblnumPerguntas))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtProfessor)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblmateria3)
-                                .addGap(27, 27, 27)
-                                .addComponent(jtxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jtxtNumPerguntas, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jbtnGerar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,27 +163,29 @@ public class frmProva extends javax.swing.JFrame {
                     .addComponent(jtxtProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblmateria3)
-                    .addComponent(jtxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                    .addComponent(jlblnumPerguntas)
+                    .addComponent(jtxtNumPerguntas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtxtCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnCaminho))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnPreVisualizar)
-                    .addComponent(jbtnGerar)))
+                .addComponent(jbtnGerar))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
-            Vector dadosMaterias;
+
+        Vector dadosMaterias;
         try {
             dadosMaterias = xml.getMaterias();
-            for(int i=0;i<dadosMaterias.size();i++){
+            for (int i = 0; i < dadosMaterias.size(); i++) {
                 cmb.addItem(dadosMaterias.elementAt(i));
             }
         } catch (IOException ex) {
@@ -178,13 +195,11 @@ public class frmProva extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
-    private void jbtnPreVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPreVisualizarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnPreVisualizarActionPerformed
-
     private void cmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbActionPerformed
-               try {
-            jList1.setListData(xml.getPerguntas(cmb1.getSelectedItem().toString().toLowerCase(),cmb.getSelectedItem().toString().toLowerCase()));
+        try {
+            Vector perguntas=xml.getPerguntas(cmb1.getSelectedItem().toString().toLowerCase(), cmb.getSelectedItem().toString().toLowerCase());
+            Collections.shuffle(perguntas);
+            jList1.setListData(perguntas);
         } catch (IOException ex) {
             Logger.getLogger(frmProva.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
@@ -193,48 +208,69 @@ public class frmProva extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbActionPerformed
 
     private void cmb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb1ActionPerformed
-         try {
-            jList1.setListData(xml.getPerguntas(cmb1.getSelectedItem().toString().toLowerCase(),cmb.getSelectedItem().toString().toLowerCase()));
+        try {
+            Vector perguntas=xml.getPerguntas(cmb1.getSelectedItem().toString().toLowerCase(), cmb.getSelectedItem().toString().toLowerCase());
+            Collections.shuffle(perguntas);
+            jList1.setListData(perguntas);
         } catch (IOException ex) {
             Logger.getLogger(frmProva.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
             Logger.getLogger(frmProva.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_cmb1ActionPerformed
 
     private void jbtnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGerarActionPerformed
-        
-            prova provaGerar=new prova();
-            provaGerar.setData(jtxtData.getText().toString());
-            provaGerar.setMateria(cmb.getSelectedItem().toString());
-            provaGerar.setProfessor(jtxtProfessor.getText());
-            Vector perguntasProva=new Vector();
-            for(int i=1;i<=jList1.getModel().getSize();i++){
+
+        prova provaGerar = new prova();
+        Calendar data=Calendar.getInstance();
+        provaGerar.setData(String.valueOf(data.get(Calendar.DATE))+"/"+String.valueOf(data.get(data.MONTH))+"/"+String.valueOf(data.get(data.YEAR)));
+        provaGerar.setMateria(cmb.getSelectedItem().toString());
+        provaGerar.setProfessor(jtxtProfessor.getText());
+        Vector perguntasProva = new Vector();
+        for (int i = 1; i <= jList1.getModel().getSize() && i<=Integer.parseInt(jtxtNumPerguntas.getText()); i++) {
+            perguntas perguntaNova=new perguntas();
             try {
-                perguntas perguntaNova;
-                perguntaNova = xml.getDetalhePergunta(jList1.getSelectedValue().toString());
-                perguntasProva.add(perguntaNova);
+                perguntaNova = xml.getDetalhePergunta(jList1.getModel().getElementAt(i-1).toString());
             } catch (IOException ex) {
                 Logger.getLogger(frmProva.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SAXException ex) {
                 Logger.getLogger(frmProva.class.getName()).log(Level.SEVERE, null, ex);
             }
-            }
-            provaGerar.setPerguntas(perguntasProva);
-    try{
-        prova.geraProva(provaGerar);
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Não foi possível gerar a prova","Erro",JOptionPane.ERROR_MESSAGE);
-
-            /*Metódo utilizado para encerrar um programa que utilize interface
-            gráfica sem erro, caso com erro altere para 1*/
-            System.exit(0);
+            perguntasProva.add(perguntaNova);
         }
+        provaGerar.setPerguntas(perguntasProva);
+        try {
+            prova.geraProva(provaGerar, jtxtCaminho.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não foi possível gerar a prova", "Erro", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }finally{
+            JOptionPane.showMessageDialog(null, "Prova Gerada com sucesso!", "Sucesso", JOptionPane.PLAIN_MESSAGE);
+            int respostaGabarito=JOptionPane.showConfirmDialog(null, "Você deseja gerar o gabarito desta prova?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if(respostaGabarito==JOptionPane.YES_OPTION){
+                gabarito gabaritoProva=new gabarito();
+                gabaritoProva.geraGabarito(provaGerar,jtxtCaminho.getText());
+            }
+        }
+        
     }//GEN-LAST:event_jbtnGerarActionPerformed
 
-    
-    
+    private void jbtnCaminhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCaminhoActionPerformed
+        JFileChooser selecionaArquivo=new JFileChooser();
+        selecionaArquivo.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        selecionaArquivo.setDialogTitle("Escolha o diretório para salvar a prova");
+        
+        int res = selecionaArquivo.showOpenDialog(null);
+                    if(res == JFileChooser.APPROVE_OPTION){
+                        File diretorio = selecionaArquivo.getSelectedFile();
+                        String nomeDir=diretorio.getAbsolutePath();
+                        jtxtCaminho.setText(nomeDir);
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "Voce não selecionou nenhum diretório.");
+    }//GEN-LAST:event_jbtnCaminhoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -282,13 +318,14 @@ public class frmProva extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbtnCaminho;
     private javax.swing.JButton jbtnGerar;
-    private javax.swing.JButton jbtnPreVisualizar;
-    private javax.swing.JTextField jtxtData;
+    private javax.swing.JLabel jlblnumPerguntas;
+    private javax.swing.JTextField jtxtCaminho;
+    private javax.swing.JFormattedTextField jtxtNumPerguntas;
     private javax.swing.JTextField jtxtProfessor;
     private javax.swing.JLabel lblmateria;
     private javax.swing.JLabel lblmateria1;
     private javax.swing.JLabel lblmateria2;
-    private javax.swing.JLabel lblmateria3;
     // End of variables declaration//GEN-END:variables
 }

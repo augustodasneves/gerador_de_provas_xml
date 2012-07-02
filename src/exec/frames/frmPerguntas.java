@@ -4,10 +4,18 @@
  */
 package exec.frames;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
 import main.misc;
 import main.perguntas;
 import main.xml;
@@ -18,7 +26,7 @@ import org.xml.sax.SAXException;
  * @author Augusto
  */
 public class frmPerguntas extends javax.swing.JFrame {
-
+    private perguntas perguntaOriginal;
     /**
      * Creates new form frmPerguntas
      */
@@ -58,14 +66,14 @@ public class frmPerguntas extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
         jbtnEditar = new javax.swing.JButton();
-        jlblpesquisa = new javax.swing.JLabel();
-        jtxtpesquisa = new javax.swing.JTextField();
         jlblttlEditar1 = new javax.swing.JLabel();
         btnEditar = new javax.swing.JButton();
         lblmateria4 = new javax.swing.JLabel();
         lblmateria5 = new javax.swing.JLabel();
         cmb4 = new javax.swing.JComboBox();
         cmb5 = new javax.swing.JComboBox();
+        jbtnExcluir = new javax.swing.JButton();
+        jbtnNovo = new javax.swing.JButton();
 
         lblmateria.setText("Matéria:");
 
@@ -112,6 +120,11 @@ public class frmPerguntas extends javax.swing.JFrame {
         btngroupRespostas.add(jRbtn4);
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel1.setText("Perguntas Filtradas:");
@@ -122,8 +135,6 @@ public class frmPerguntas extends javax.swing.JFrame {
                 jbtnEditarActionPerformed(evt);
             }
         });
-
-        jlblpesquisa.setText("Pesquisa Rápida:");
 
         jlblttlEditar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlblttlEditar1.setText("Detalhes da Pergunta");
@@ -156,121 +167,120 @@ public class frmPerguntas extends javax.swing.JFrame {
             }
         });
 
+        jbtnExcluir.setText("Excluir");
+        jbtnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnExcluirActionPerformed(evt);
+            }
+        });
+
+        jbtnNovo.setText("Novo");
+        jbtnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnNovoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jlblpesquisa)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jtxtpesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblmateria3)
-                            .addComponent(lblmateria2))
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmb3, 0, 245, Short.MAX_VALUE)
-                            .addComponent(cmb2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblmateria3)
+                                .addComponent(lblmateria2))
+                            .addGap(14, 14, 14)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cmb3, 0, 245, Short.MAX_VALUE)
+                                .addComponent(cmb2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbtnExcluir)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jbtnNovo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(btnEditar)
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblmateria4)
-                                .addGap(14, 14, 14)
-                                .addComponent(cmb4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jlblDescricao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxtEnunciado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRbtn1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jtxtalt1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRbtn2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jtxtalt3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRbtn3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jtxtalt2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRbtn4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jtxtalt4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblmateria5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmb5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addComponent(lblmateria4)
+                        .addGap(14, 14, 14)
+                        .addComponent(cmb4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlblDescricao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtxtEnunciado))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jRbtn1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtxtalt1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jRbtn2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtxtalt3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jRbtn3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtxtalt2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jRbtn4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtxtalt4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblmateria5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmb5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 339, Short.MAX_VALUE)
+                        .addGap(233, 233, 233)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jlblttlEditar1)
-                                .addGap(226, 226, 226))
+                                .addGap(216, 216, 216))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jbtnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(233, 233, 233))))))
+                                .addGap(223, 223, 223)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jbtnNovo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbtnExcluir)
+                .addGap(109, 109, 109))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jlblttlEditar1)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblmateria2)
-                            .addComponent(cmb2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblmateria5)
+                            .addComponent(cmb5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblmateria3)
-                            .addComponent(cmb3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlblpesquisa)
-                            .addComponent(jtxtpesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblmateria4)
+                            .addComponent(cmb4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)
-                        .addGap(1, 1, 1)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlblDescricao)
+                            .addComponent(jtxtEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnEditar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
-                                .addComponent(jlblttlEditar1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblmateria5)
-                                    .addComponent(cmb5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblmateria4)
-                                    .addComponent(cmb4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jlblDescricao)
-                                    .addComponent(jtxtEnunciado, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jRbtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtxtalt1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(9, 9, 9)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRbtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtxtalt3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jRbtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtalt1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRbtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtalt3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRbtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,7 +291,19 @@ public class frmPerguntas extends javax.swing.JFrame {
                             .addComponent(jtxtalt4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtnEditar)
-                        .addGap(23, 23, 23)))
+                        .addGap(0, 57, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblmateria2)
+                            .addComponent(cmb2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblmateria3)
+                            .addComponent(cmb3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
 
@@ -312,6 +334,8 @@ public class frmPerguntas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    
+    
     private void cmb2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb2ActionPerformed
         try {
             jList1.setListData(xml.getPerguntas(cmb3.getSelectedItem().toString().toLowerCase(), cmb2.getSelectedItem().toString().toLowerCase()));
@@ -325,6 +349,7 @@ public class frmPerguntas extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         try {
             perguntas pergunta = xml.getDetalhePergunta(jList1.getSelectedValue().toString());
+            this.perguntaOriginal=pergunta;
             Vector dadosMaterias;
             try {
                 dadosMaterias = xml.getMaterias();
@@ -362,8 +387,6 @@ public class frmPerguntas extends javax.swing.JFrame {
                         break;
                 }
             }
-            
-            
             
             jtxtEnunciado.setText(pergunta.getDescricao());
             Vector respostas = pergunta.getListaRespostas();
@@ -447,7 +470,23 @@ public class frmPerguntas extends javax.swing.JFrame {
             respostasEditadas.add(RadioCorreta+","+alternativa);
         }
         perguntaEditada.setListaRespostas(respostasEditadas);
-//        xml.editaPergunta(pergunta, perguntaEditada)
+        try {
+            xml.editaPergunta(this.perguntaOriginal, perguntaEditada);
+            this.limpaFormPergunta();
+            jList1.setModel(new DefaultListModel());
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XPathExpressionException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jbtnEditarActionPerformed
 
     private void cmb4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb4ActionPerformed
@@ -462,6 +501,46 @@ public class frmPerguntas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmb5ActionPerformed
 
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void jbtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExcluirActionPerformed
+        
+        try {
+            perguntas pergunta = xml.getDetalhePergunta(jList1.getSelectedValue().toString());
+            xml.removePergunta(pergunta);
+            this.limpaFormPergunta();
+            jList1.setModel(new DefaultListModel());
+        } catch (IOException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XPathExpressionException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtnExcluirActionPerformed
+
+    private void jbtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNovoActionPerformed
+        this.limpaFormPergunta();
+    }//GEN-LAST:event_jbtnNovoActionPerformed
+    public void limpaFormPergunta(){
+        cmb5.removeAllItems();
+        cmb4.removeAllItems();
+        jtxtEnunciado.setText("");
+        jtxtalt1.setText("");
+        jtxtalt2.setText("");
+        jtxtalt3.setText("");
+        jtxtalt4.setText("");
+        jRbtn1.setSelected(false);
+        jRbtn2.setSelected(false);
+        jRbtn3.setSelected(false);
+        jRbtn4.setSelected(false);
+    }
     /**
      * @param args the command line arguments
      */
@@ -521,15 +600,15 @@ public class frmPerguntas extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRbtn4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtnEditar;
+    private javax.swing.JButton jbtnExcluir;
+    private javax.swing.JButton jbtnNovo;
     private javax.swing.JLabel jlblDescricao;
-    private javax.swing.JLabel jlblpesquisa;
     private javax.swing.JLabel jlblttlEditar1;
     private javax.swing.JTextField jtxtEnunciado;
     private javax.swing.JTextField jtxtalt1;
     private javax.swing.JTextField jtxtalt2;
     private javax.swing.JTextField jtxtalt3;
     private javax.swing.JTextField jtxtalt4;
-    private javax.swing.JTextField jtxtpesquisa;
     private javax.swing.JLabel lblmateria;
     private javax.swing.JLabel lblmateria1;
     private javax.swing.JLabel lblmateria2;
