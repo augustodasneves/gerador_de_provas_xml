@@ -82,7 +82,6 @@ public class frmPerguntas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Formulário de Edição de Perguntas");
-        setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -349,6 +348,7 @@ public class frmPerguntas extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb2ActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if(jList1.getSelectedValue().toString().isEmpty()==false){
         try {
             this.novo=false;
             perguntas pergunta = xml.getDetalhePergunta(jList1.getSelectedValue().toString());
@@ -431,13 +431,37 @@ public class frmPerguntas extends javax.swing.JFrame {
         } catch (SAXException ex) {
             Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }else{
+            JOptionPane.showMessageDialog(null, "Nenhuma pergunta selecionada", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void cmb2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb2ItemStateChanged
     }//GEN-LAST:event_cmb2ItemStateChanged
 
+    public boolean validaForm(){
+        boolean evalido=true;
+        if(jRbtn1.isSelected()==false && jRbtn2.isSelected()==false && jRbtn3.isSelected()==false && jRbtn4.isSelected()==false){
+            JOptionPane.showMessageDialog(null, "Não foi marcada a resposta Correta", "Erro", JOptionPane.ERROR_MESSAGE);
+            evalido=false;
+            return evalido;            
+        }
+        if(jtxtalt1.getText().isEmpty() || jtxtalt2.getText().isEmpty() || jtxtalt3.getText().isEmpty() || jtxtalt4.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Preencha corretamente as respostas", "Erro", JOptionPane.ERROR_MESSAGE);
+            evalido=false;
+            return evalido;
+        }
+        if(jtxtEnunciado.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Preencha corretamente o enunciado da pergunta", "Erro", JOptionPane.ERROR_MESSAGE);
+            evalido=false;
+            return evalido;
+        }
+        return evalido;        
+    }
+    
     private void jbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditarActionPerformed
-        
+        boolean valido=this.validaForm();
+        if(valido==true){
         perguntas perguntaEditada=new perguntas();
         perguntaEditada.setDescricao(jtxtEnunciado.getText());
         perguntaEditada.setNivel(misc.limparString(cmb4.getSelectedItem().toString().toLowerCase()));        
@@ -493,6 +517,7 @@ public class frmPerguntas extends javax.swing.JFrame {
             Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
             Logger.getLogger(frmPerguntas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }//GEN-LAST:event_jbtnEditarActionPerformed
 

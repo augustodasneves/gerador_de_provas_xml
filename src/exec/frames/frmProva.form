@@ -181,13 +181,15 @@
     <Component class="javax.swing.JButton" name="jbtnGerar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerar Prova"/>
-        <Property name="actionCommand" type="java.lang.String" value="Gerar Prova"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnGerarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jtxtCaminho">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jbtnCaminho">
       <Properties>

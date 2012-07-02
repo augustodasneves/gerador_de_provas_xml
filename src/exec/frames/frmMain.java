@@ -34,7 +34,6 @@ public class frmMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(0, 0));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -57,6 +56,11 @@ public class frmMain extends javax.swing.JFrame {
         menuProva.setText("Provas");
 
         itmProva.setText("Gerar Prova");
+        itmProva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmProvaActionPerformed(evt);
+            }
+        });
         menuProva.add(itmProva);
 
         jMenuBar1.add(menuProva);
@@ -79,6 +83,7 @@ public class frmMain extends javax.swing.JFrame {
 
     private void itmPerguntasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPerguntasActionPerformed
         frmPerguntas frmPergunta= new frmPerguntas();
+        frmPergunta.setLocationRelativeTo(null);
         frmPergunta.setVisible(true);
         frmPergunta.show();
     }//GEN-LAST:event_itmPerguntasActionPerformed
@@ -86,6 +91,13 @@ public class frmMain extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.setExtendedState(MAXIMIZED_BOTH);
     }//GEN-LAST:event_formWindowOpened
+
+    private void itmProvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmProvaActionPerformed
+        frmProva frmProva= new frmProva();
+        frmProva.setLocationRelativeTo(null);
+        frmProva.setVisible(true);
+        frmProva.show();
+    }//GEN-LAST:event_itmProvaActionPerformed
 
     /**
      * @param args the command line arguments

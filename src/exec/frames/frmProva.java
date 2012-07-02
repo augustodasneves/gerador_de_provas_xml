@@ -90,12 +90,13 @@ public class frmProva extends javax.swing.JFrame {
         jLabel1.setText("Perguntas Pré-Selecionadas:");
 
         jbtnGerar.setText("Gerar Prova");
-        jbtnGerar.setActionCommand("Gerar Prova");
         jbtnGerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnGerarActionPerformed(evt);
             }
         });
+
+        jtxtCaminho.setEditable(false);
 
         jbtnCaminho.setText("Selecione o Caminho");
         jbtnCaminho.addActionListener(new java.awt.event.ActionListener() {
@@ -220,8 +221,38 @@ public class frmProva extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cmb1ActionPerformed
 
+    public boolean validaProva(){
+        boolean valido=true;
+        if(jtxtCaminho.getText().toString().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Local para geração da prova não escolhido", "Erro", JOptionPane.ERROR_MESSAGE);
+            valido=false;
+            return valido;
+        }
+        if(jtxtProfessor.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Digite o nome do Professor", "Erro", JOptionPane.ERROR_MESSAGE);
+            valido=false;
+            return valido;
+        }
+        
+        if(jtxtNumPerguntas.getText().isEmpty()){
+            try{
+            Integer.parseInt(jtxtNumPerguntas.getText());
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Digite corretamente o número de perguntas da prova", "Erro", JOptionPane.ERROR_MESSAGE);
+                valido=false;
+                return valido;
+            }
+            JOptionPane.showMessageDialog(null, "Digite o nome do Professor", "Erro", JOptionPane.ERROR_MESSAGE);
+            valido=false;
+            return valido;
+        }
+        return valido;
+    }
+    
     private void jbtnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGerarActionPerformed
-
+        boolean evalidoProva;
+        evalidoProva=this.validaProva();
+        if(evalidoProva==true){
         prova provaGerar = new prova();
         Calendar data=Calendar.getInstance();
         provaGerar.setData(String.valueOf(data.get(Calendar.DATE))+"/"+String.valueOf(data.get(data.MONTH))+"/"+String.valueOf(data.get(data.YEAR)));
@@ -253,7 +284,7 @@ public class frmProva extends javax.swing.JFrame {
                 gabaritoProva.geraGabarito(provaGerar,jtxtCaminho.getText());
             }
         }
-        
+        }
     }//GEN-LAST:event_jbtnGerarActionPerformed
 
     private void jbtnCaminhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCaminhoActionPerformed

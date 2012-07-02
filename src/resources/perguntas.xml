@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><perguntas>    
     
 
-	<pergunta descricao="TESTE" materia="LPII" nivel="medio">
-		<resposta correta="sim" descricao="1111111"/>
-		<resposta correta="nao" descricao="3333333"/>
-		<resposta correta="nao" descricao="2222222"/>
-		<resposta correta="nao" descricao="4444444"/>
-		</pergunta>
-<pergunta descricao="TESTE" materia="Banco de Dados" nivel="medio">
-        <resposta correta="sim" descricao="1111111"/>
-        <resposta correta="nao" descricao="3333333"/>
-        <resposta correta="nao" descricao="2222222"/>
-        <resposta correta="nao" descricao="4444444"/>
-    </pergunta><pergunta descricao="TESTTTTTEEE ENENEGGG" materia="Engenharia de Software" nivel="medio"><resposta correta="nao" descricao="tetetet"/><resposta correta="sim" descricao="tetetebbb"/><resposta correta="nao" descricao="teteteteaaa"/><resposta correta="nao" descricao="tetetetteteetcccccc"/></pergunta></perguntas>
+	
+<pergunta descricao="TESTTTTTEEE ENENEGGG" materia="Engenharia de Software" nivel="medio"><resposta correta="nao" descricao="tetetet"/><resposta correta="sim" descricao="tetetebbb"/><resposta correta="nao" descricao="teteteteaaa"/><resposta correta="nao" descricao="tetetetteteetcccccc"/></pergunta><pergunta descricao="testestest" materia="LPII" nivel="facil">
+		<resposta correta="sim" descricao="tettete"/>
+		<resposta correta="nao" descricao="etetee"/>
+		<resposta correta="nao" descricao="tetete"/>
+		<resposta correta="nao" descricao="sldaqjdljdladjlsadj"/>
+		</pergunta></perguntas>
