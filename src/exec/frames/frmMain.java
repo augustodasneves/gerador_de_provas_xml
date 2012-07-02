@@ -30,10 +30,17 @@ public class frmMain extends javax.swing.JFrame {
         menuPerguntas = new javax.swing.JMenu();
         itmPerguntas = new javax.swing.JMenuItem();
         menuProva = new javax.swing.JMenu();
+        itmProva = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
+        setMinimumSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(0, 0));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         menuPerguntas.setText("Perguntas");
 
@@ -48,6 +55,10 @@ public class frmMain extends javax.swing.JFrame {
         jMenuBar1.add(menuPerguntas);
 
         menuProva.setText("Provas");
+
+        itmProva.setText("Gerar Prova");
+        menuProva.add(itmProva);
+
         jMenuBar1.add(menuProva);
 
         setJMenuBar(jMenuBar1);
@@ -56,11 +67,11 @@ public class frmMain extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 859, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addGap(0, 532, Short.MAX_VALUE)
         );
 
         pack();
@@ -68,9 +79,13 @@ public class frmMain extends javax.swing.JFrame {
 
     private void itmPerguntasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPerguntasActionPerformed
         frmPerguntas frmPergunta= new frmPerguntas();
-        setVisible(true);
+        frmPergunta.setVisible(true);
         frmPergunta.show();
     }//GEN-LAST:event_itmPerguntasActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setExtendedState(MAXIMIZED_BOTH);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -115,6 +130,7 @@ public class frmMain extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem itmPerguntas;
+    private javax.swing.JMenuItem itmProva;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuPerguntas;
     private javax.swing.JMenu menuProva;
