@@ -2,9 +2,9 @@
     
 
 	
-<pergunta descricao="TESTTTTTEEE ENENEGGG" materia="Engenharia de Software" nivel="medio"><resposta correta="nao" descricao="tetetet"/><resposta correta="sim" descricao="tetetebbb"/><resposta correta="nao" descricao="teteteteaaa"/><resposta correta="nao" descricao="tetetetteteetcccccc"/></pergunta><pergunta descricao="testestest" materia="LPII" nivel="facil">
+<pergunta descricao="testestest" materia="LPII" nivel="facil">
 		<resposta correta="sim" descricao="tettete"/>
 		<resposta correta="nao" descricao="etetee"/>
 		<resposta correta="nao" descricao="tetete"/>
 		<resposta correta="nao" descricao="sldaqjdljdladjlsadj"/>
-		</pergunta></perguntas>
+		</pergunta><pergunta descricao="testestest" materia="LPII" nivel="facil"><resposta correta="nao" descricao="tettete"/><resposta correta="sim" descricao="etetee"/><resposta correta="nao" descricao="tetete"/><resposta correta="nao" descricao="sldaqjdljdladjlsadj"/></pergunta></perguntas>
